@@ -18,6 +18,10 @@ import {
 } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 
 interface Celebrity {
   id: number;
@@ -120,13 +124,11 @@ const CelebrityAccordion: React.FC<CelebrityAccordionProps> = ({
       sx={{ my: 2 }}
     >
       <AccordionSummary
-        expandIcon={
-          <IconButton>{isExpanded ? <RemoveIcon /> : <AddIcon />} </IconButton>
-        }
+        expandIcon={isExpanded ? <RemoveIcon /> : <AddIcon />}
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
-        <Box display={"flex"} alignItems={"center"} gap={2}>
+        <Box display={"flex"} alignItems={"center"} gap={2} flex={1}>
           <Avatar
             alt="Celebrity_image"
             src={celeb.picture}
@@ -137,7 +139,6 @@ const CelebrityAccordion: React.FC<CelebrityAccordionProps> = ({
               name="fullname"
               value={editedCelebrity.fullname}
               onChange={handleInputChange}
-              fullWidth
               size="small"
               className="form-value"
             />
@@ -152,7 +153,7 @@ const CelebrityAccordion: React.FC<CelebrityAccordionProps> = ({
             <Typography className="form-label">Age</Typography>
             {isEditing ? (
               <TextField
-              size="small"
+                size="small"
                 name="age"
                 value={editedCelebrity.age}
                 onChange={handleInputChange}
@@ -161,14 +162,14 @@ const CelebrityAccordion: React.FC<CelebrityAccordionProps> = ({
                 className="form-value"
               />
             ) : (
-              <Typography className="form-value">{celeb.age}</Typography>
+              <Typography className="form-value">{celeb.age} Years</Typography>
             )}
           </Box>
           <Box flex={1}>
             <Typography className="form-label">Gender</Typography>
             {isEditing ? (
               <TextField
-              size="small"
+                size="small"
                 select
                 name="gender"
                 value={editedCelebrity.gender}
@@ -176,14 +177,14 @@ const CelebrityAccordion: React.FC<CelebrityAccordionProps> = ({
                 fullWidth
                 className="form-value"
               >
-                <MenuItem value="Male">Male</MenuItem>
-                <MenuItem value="Female">Female</MenuItem>
+                <MenuItem value="male">Male</MenuItem>
+                <MenuItem value="female">Female</MenuItem>
                 <MenuItem value="Transgender">Transgender</MenuItem>
                 <MenuItem value="Rather not say">Rather not say</MenuItem>
                 <MenuItem value="Other">Other</MenuItem>
               </TextField>
             ) : (
-              <Typography className="form-value">{celeb.gender}</Typography>
+              <Typography className="form-value capitalize">{celeb.gender}</Typography>
             )}
           </Box>
           <Box flex={1}>
@@ -236,45 +237,48 @@ const CelebrityAccordion: React.FC<CelebrityAccordionProps> = ({
           )}
         </Box>
 
-        {isAdult && !isEditing && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={onEdit}
-            sx={{ mt: 2 }}
-          >
-            Edit
-          </Button>
-        )}
-        {isEditing && (
-          <>
-            <Button
-              variant="contained"
+        <Box display="flex" justifyContent="flex-end" mt={2}>
+          {isAdult && !isEditing && (
+            <IconButton
               color="primary"
-              onClick={handleSave}
-              disabled={!isChanged}
-              sx={{ mt: 2 }}
+              onClick={onEdit}
+              aria-label="edit"
+              sx={{ mr: 1 }}
             >
-              Save
-            </Button>
-            <Button
-              variant="outlined"
+              <ModeEditOutlinedIcon />
+            </IconButton>
+          )}
+          {isEditing && (
+            <>
+              <IconButton
+                color="error"
+                onClick={handleCancel}
+                aria-label="cancel"
+              >
+                <CancelOutlinedIcon />
+              </IconButton>
+
+              <IconButton
+                color="success"
+                onClick={handleSave}
+                disabled={!isChanged}
+                aria-label="save"
+                sx={{ mr: 1 }}
+              >
+                <CheckCircleOutlineOutlinedIcon />
+              </IconButton>
+            </>
+          )}
+          {!isEditing && (
+            <IconButton
               color="error"
-              onClick={handleCancel}
-              sx={{ mt: 2, ml: 2 }}
+              onClick={handleDeleteConfirmation}
+              aria-label="delete"
             >
-              Cancel
-            </Button>
-          </>
-        )}
-        <Button
-          variant="outlined"
-          color="error"
-          onClick={handleDeleteConfirmation}
-          sx={{ mt: 2, ml: 2 }}
-        >
-          Delete
-        </Button>
+              <DeleteOutlinedIcon />
+            </IconButton>
+          )}
+        </Box>
       </AccordionDetails>
 
       {/* Delete Confirmation Dialog */}

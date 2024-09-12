@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Celebrity } from "./types";
 import jsonData from "../src/data/celebrities.json";
 import CelebrityAccordion from "./components/CelebrityAccordion";
-import { Container, TextField, Typography } from "@mui/material";
+import { Container, TextField, Typography, InputAdornment } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 const calculateAge = (dob: string): number => {
   const birthDate = new Date(dob);
@@ -19,10 +20,11 @@ const App: React.FC = () => {
   }));
 
   const [celebrities, setCelebrities] = useState<Celebrity[]>(transformedData);
-  const [filteredCelebs, setFilteredCelebs] = useState<Celebrity[]>(transformedData); 
+  const [filteredCelebs, setFilteredCelebs] =
+    useState<Celebrity[]>(transformedData);
   const [search, setSearch] = useState<string>("");
-  const [currentlyOpenId, setCurrentlyOpenId] = useState<number | null>(null); 
-  const [editingId, setEditingId] = useState<number | null>(null); 
+  const [currentlyOpenId, setCurrentlyOpenId] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -34,14 +36,12 @@ const App: React.FC = () => {
       celeb.fullname.toLowerCase().includes(searchQuery)
     );
     setFilteredCelebs(filtered);
-  }, [search, celebrities]); 
+  }, [search, celebrities]);
 
   const handleDelete = (id: number) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      const updatedCelebrities = celebrities.filter((celeb) => celeb.id !== id);
-      setCelebrities(updatedCelebrities);
-      setFilteredCelebs(updatedCelebrities); 
-    }
+    const updatedCelebrities = celebrities.filter((celeb) => celeb.id !== id);
+    setCelebrities(updatedCelebrities);
+    setFilteredCelebs(updatedCelebrities);
   };
 
   const handleAccordionToggle = (id: number) => {
@@ -61,15 +61,15 @@ const App: React.FC = () => {
     );
     setCelebrities(updatedCelebrities);
     setFilteredCelebs(updatedCelebrities);
-    setEditingId(null); 
+    setEditingId(null);
   };
 
   const handleCancel = () => {
-    setEditingId(null); 
+    setEditingId(null);
   };
 
   return (
-    <Container>
+    <Container sx={{ my: 1, py: 2 }}>
       <Typography variant="h4" gutterBottom>
         Celebrity Manager
       </Typography>
@@ -79,20 +79,42 @@ const App: React.FC = () => {
         fullWidth
         value={search}
         onChange={handleSearchChange}
-        sx={{ marginBottom: 2 }}
+        sx={{
+          marginBottom: 2,
+          borderRadius: 2, // Border radius for the search bar
+          "& .MuiOutlinedInput-root": {
+            borderRadius: 2,
+            "& fieldset": {
+              borderColor: "grey.400", // Border color
+            },
+            "&:hover fieldset": {
+              borderColor: "primary.main", // Border color on hover
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "primary.main", // Border color when focused
+            },
+          },
+        }}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
       />
       {filteredCelebs.map((celeb) => (
         <CelebrityAccordion
           key={celeb.id}
           celeb={celeb}
-          isExpanded={currentlyOpenId === celeb.id} 
-          onToggle={() => handleAccordionToggle(celeb.id)} 
+          isExpanded={currentlyOpenId === celeb.id}
+          onToggle={() => handleAccordionToggle(celeb.id)}
           onDelete={() => handleDelete(celeb.id)}
           onSave={handleSave}
           onCancel={handleCancel}
           onEdit={() => handleEdit(celeb.id)} // Trigger edit mode
-          isEditing={editingId === celeb.id} 
-          isAdult={celeb.age >= 18} 
+          isEditing={editingId === celeb.id}
+          isAdult={celeb.age >= 18}
         />
       ))}
     </Container>
