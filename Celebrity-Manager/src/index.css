@@ -68,6 +68,6 @@ button:focus-visible {
 } */
 
 
-.css-f9tyb4-MuiPaper-root-MuiAccordion-root::before{
+.css-f9tyb4-MuiPaper-root-MuiAccordion-root::before,.css-1o4ubwy::before{
   background-color: white !important;
 }
