@@ -66,3 +66,8 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 } */
+
+
+.css-f9tyb4-MuiPaper-root-MuiAccordion-root::before{
+  background-color: white !important;
+}
