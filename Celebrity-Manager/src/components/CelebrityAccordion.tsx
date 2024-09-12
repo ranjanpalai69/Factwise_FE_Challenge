@@ -132,35 +132,31 @@ const CelebrityAccordion: React.FC<CelebrityAccordionProps> = ({
             src={celeb.picture}
             sx={{ width: 50, height: 50 }}
           />
-          <Typography className="celeb-name">{celeb.fullname}</Typography>
+          {isEditing ? (
+            <TextField
+              name="fullname"
+              value={editedCelebrity.fullname}
+              onChange={handleInputChange}
+              fullWidth
+              size="small"
+              className="form-value"
+            />
+          ) : (
+            <Typography className="celeb-name">{celeb.fullname}</Typography>
+          )}
         </Box>
       </AccordionSummary>
       <AccordionDetails>
-        <Box display="flex" flexDirection="row" flexWrap="wrap">
-          <Box flex={1}>
-            <Typography className="form-label">Full Name</Typography>
-            {isEditing ? (
-              <TextField
-                name="fullname"
-                value={editedCelebrity.fullname}
-                onChange={handleInputChange}
-                fullWidth
-                margin="normal"
-                className="form-value"
-              />
-            ) : (
-              <Typography className="form-value">{celeb.fullname}</Typography>
-            )}
-          </Box>
+        <Box display="flex" flexDirection="row" flexWrap="wrap" gap={1}>
           <Box flex={1}>
             <Typography className="form-label">Age</Typography>
             {isEditing ? (
               <TextField
+              size="small"
                 name="age"
                 value={editedCelebrity.age}
                 onChange={handleInputChange}
                 fullWidth
-                margin="normal"
                 type="number"
                 className="form-value"
               />
@@ -172,12 +168,12 @@ const CelebrityAccordion: React.FC<CelebrityAccordionProps> = ({
             <Typography className="form-label">Gender</Typography>
             {isEditing ? (
               <TextField
+              size="small"
                 select
                 name="gender"
                 value={editedCelebrity.gender}
                 onChange={handleGenderChange}
                 fullWidth
-                margin="normal"
                 className="form-value"
               >
                 <MenuItem value="Male">Male</MenuItem>
@@ -198,7 +194,7 @@ const CelebrityAccordion: React.FC<CelebrityAccordionProps> = ({
                 value={editedCelebrity.country}
                 onChange={handleInputChange}
                 fullWidth
-                margin="normal"
+                size="small"
                 className="form-value"
               />
             ) : (
@@ -213,7 +209,7 @@ const CelebrityAccordion: React.FC<CelebrityAccordionProps> = ({
                 value={editedCelebrity.email}
                 onChange={handleInputChange}
                 fullWidth
-                margin="normal"
+                size="small"
                 className="form-value"
               />
             ) : (
@@ -230,7 +226,7 @@ const CelebrityAccordion: React.FC<CelebrityAccordionProps> = ({
               value={editedCelebrity.description}
               onChange={handleInputChange}
               fullWidth
-              margin="normal"
+              size="small"
               multiline
               rows={4}
               className="form-value"
