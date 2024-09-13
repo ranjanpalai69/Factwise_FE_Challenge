@@ -15,11 +15,12 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  Grid,
 } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 
@@ -148,8 +149,9 @@ const CelebrityAccordion: React.FC<CelebrityAccordionProps> = ({
         </Box>
       </AccordionSummary>
       <AccordionDetails>
-        <Box display="flex" flexDirection="row" flexWrap="wrap" gap={1}>
-          <Box flex={1}>
+        <Grid container spacing={2}>
+          {/* Age Field */}
+          <Grid item xs={12} sm={6} md={3}>
             <Typography className="form-label">Age</Typography>
             {isEditing ? (
               <TextField
@@ -164,8 +166,10 @@ const CelebrityAccordion: React.FC<CelebrityAccordionProps> = ({
             ) : (
               <Typography className="form-value">{celeb.age} Years</Typography>
             )}
-          </Box>
-          <Box flex={1}>
+          </Grid>
+
+          {/* Gender Field */}
+          <Grid item xs={12} sm={6} md={3}>
             <Typography className="form-label">Gender</Typography>
             {isEditing ? (
               <TextField
@@ -184,10 +188,14 @@ const CelebrityAccordion: React.FC<CelebrityAccordionProps> = ({
                 <MenuItem value="Other">Other</MenuItem>
               </TextField>
             ) : (
-              <Typography className="form-value capitalize">{celeb.gender}</Typography>
+              <Typography className="form-value capitalize">
+                {celeb.gender}
+              </Typography>
             )}
-          </Box>
-          <Box flex={1}>
+          </Grid>
+
+          {/* Country Field */}
+          <Grid item xs={12} sm={6} md={3}>
             <Typography className="form-label">Country</Typography>
             {isEditing ? (
               <TextField
@@ -201,8 +209,10 @@ const CelebrityAccordion: React.FC<CelebrityAccordionProps> = ({
             ) : (
               <Typography className="form-value">{celeb.country}</Typography>
             )}
-          </Box>
-          <Box flex={1}>
+          </Grid>
+
+          {/* Email Field */}
+          <Grid item xs={12} sm={6} md={3}>
             <Typography className="form-label">Email</Typography>
             {isEditing ? (
               <TextField
@@ -216,27 +226,31 @@ const CelebrityAccordion: React.FC<CelebrityAccordionProps> = ({
             ) : (
               <Typography className="form-value">{celeb.email}</Typography>
             )}
-          </Box>
-        </Box>
+          </Grid>
 
-        <Box my={2}>
-          <Typography className="form-label">Description</Typography>
-          {isEditing ? (
-            <TextField
-              name="description"
-              value={editedCelebrity.description}
-              onChange={handleInputChange}
-              fullWidth
-              size="small"
-              multiline
-              rows={4}
-              className="form-value"
-            />
-          ) : (
-            <Typography className="form-value">{celeb.description}</Typography>
-          )}
-        </Box>
+          {/* Description Field */}
+          <Grid item xs={12}>
+            <Typography className="form-label">Description</Typography>
+            {isEditing ? (
+              <TextField
+                name="description"
+                value={editedCelebrity.description}
+                onChange={handleInputChange}
+                fullWidth
+                size="small"
+                multiline
+                rows={4}
+                className="form-value"
+              />
+            ) : (
+              <Typography className="form-value">
+                {celeb.description}
+              </Typography>
+            )}
+          </Grid>
+        </Grid>
 
+        {/* Edit/Delete Buttons */}
         <Box display="flex" justifyContent="flex-end" mt={2}>
           {isAdult && !isEditing && (
             <IconButton
